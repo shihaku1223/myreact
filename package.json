@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "React practice",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start"
   },
   "author": "Shih-Po Wang",
   "license": "ISC",
@@ -15,7 +15,8 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "eslint": "^4.2.0",
-    "eslint-plugin-react": "^7.1.0"
+    "eslint-plugin-react": "^7.1.0",
+    "react-scripts": "^1.0.10"
   },
   "dependencies": {
     "react": "^15.6.1",
