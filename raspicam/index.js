@@ -1,10 +1,13 @@
-'use struct'
+'use strict'
 
 const { spawn } = require('child_process')
 
-class RaspiCam
+import Stream from './stream'
+
+class RaspiCam extends Stream
 {
     constructor() {
+        super()
         console.log('Create RaspiCam')
     }
 
@@ -29,9 +32,14 @@ class RaspiCam
         console.log('raspivid running on ' + this.raspividPid)
     }
 
+    get Stream() {
+        return this.source
+    }
+
     /* public */
     openStream() {
         this.initRaspivid()
+        this.source = this.raspivid.stdout
     }
 
     closeStream() {

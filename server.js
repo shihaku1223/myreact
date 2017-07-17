@@ -1,12 +1,14 @@
 'use strict'
 
 import RaspiCam from './raspicam' 
+import TSStream from './raspicam/tsstream.js'
 
 const raspiCam = new RaspiCam()
-raspiCam.openStream()
-
+const tsStream = new TSStream(raspiCam)
+let stream = tsStream
+stream.openStream()
 
 setTimeout(() => {
     console.log('close stream')
-    raspiCam.closeStream()
+    stream.closeStream()
 }, 10000)
