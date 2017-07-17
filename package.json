@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "React practice",
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "test": "babel-node server.js"
   },
   "author": "Shih-Po Wang",
   "license": "ISC",
