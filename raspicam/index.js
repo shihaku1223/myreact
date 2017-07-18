@@ -32,7 +32,7 @@ class RaspiCam extends Stream
         console.log('raspivid running on ' + this.raspividPid)
     }
 
-    get Stream() {
+    get stream() {
         return this.source
     }
 

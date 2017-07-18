@@ -6,7 +6,7 @@ class Stream
         console.log('Create Stream')
     }
 
-    get Stream() {
+    get stream() {
     }
 
     openStream() {
