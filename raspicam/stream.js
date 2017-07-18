@@ -9,6 +9,9 @@ class Stream
     get stream() {
     }
 
+    set stream(stream) {
+    }
+
     openStream() {
     }
 

@@ -13,10 +13,17 @@ class RaspiCam extends Stream
 
     /* private */
     initRaspivid() {
-        let raspividArgs =
-            ['-n', '-ih',
-            '-w', '800', '-h', '600',
-            '-o', '-', '-t', '0']
+        let raspividArgs = [
+            '-n', '-ih',
+            '-rot', '0',
+            '-pf', 'main',
+            '-lev', '4.2',
+            '-md', '6',
+            '-w', '1280', '-h', '720',
+            '-b', '17000000',
+            '-fps', '90',
+            '-t', '0',
+            '-o', '-']
 
         this.raspivid = spawn('raspivid',
                 raspividArgs, {
@@ -33,13 +40,17 @@ class RaspiCam extends Stream
     }
 
     get stream() {
-        return this.source
+        return this._stream
+    }
+
+    set stream(stream) {
+        this._stream = stream
     }
 
     /* public */
     openStream() {
         this.initRaspivid()
-        this.source = this.raspivid.stdout
+        this.stream = this.raspivid.stdout
     }
 
     closeStream() {

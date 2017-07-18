@@ -1,7 +1,6 @@
 'use strict'
 
 const { spawn } = require('child_process')
-
 const FFMPEG_BIN = '/home/pi/git/ffmpeg/ffmpeg'
 
 import FilterStream from './filterstream'
@@ -10,15 +9,18 @@ class TSStream extends FilterStream
 {
 
     constructor(stream, serviceName = 'KINA-PI', serviceProvider = 'KINA-PI',
-            serviceID = 1, startPID = '0x0100', pmtPID = '0x1000') {
+            serviceID = 1, startPID = '0x0100', pmtPID = '0x1000',
+            streamCallback = (data) => {} ) {
         super(stream)
         console.log('Create MPEG-TS Stream')
 
-        this.serviceName = serviceName
-        this.serviceProvider = serviceProvider
-        this.serviceID = serviceID
-        this.startPID = startPID
-        this.pmtPID = pmtPID
+        this._serviceName = serviceName
+        this._serviceProvider = serviceProvider
+        this._serviceID = serviceID
+        this._startPID = startPID
+        this._pmtPID = pmtPID
+
+        this._streamCallback = streamCallback
     }
 
     /* setter/getter */
@@ -62,6 +64,10 @@ class TSStream extends FilterStream
         this._pmtPID = pid
     }
 
+    set streamCallback(cb) {
+        this._streamCallback = cb
+    }
+
     /* public */
     openStream() {
         super.openStream()
@@ -69,35 +75,43 @@ class TSStream extends FilterStream
     }
 
     closeStream() {
+        this.closeTSStream()
         super.closeStream()
     }
-
-/*
-    -codec copy \
-    -f mpegts \
-    -r 90 \
-    -mpegts_original_network_id 0x1000 \
-    -mpegts_transport_stream_id 0x1000 \
-    -mpegts_service_id 0x7788 \
-    -mpegts_pmt_start_pid 0x1500 \
-    -mpegts_start_pid 0x150 \
-    -metadata service_provider="KINA-PI" \
-    -metadata service_name="KINA-PI" \
-    out.ts
- */
 
     /* private */
     openTSStream() {
         let args = [
+               '-i', 'pipe:0',
                '-codec', 'copy',
                '-f', 'mpegts',
                '-mpegts_start_pid', `${this.startPID}`,
                '-mpegts_pmt_start_pid', `${this.pmtPID}`,
                '-mpegts_service_id', `${this.serviceID}`,
-               '-metadata', 'service_privider=', `${this.serviceProvider}`,
-               '-metadata', 'service_name=`', `${this.serviceName}`
+               '-metadata', `service_privider=${this.serviceProvider}`,
+               '-metadata', `service_name=${this.serviceName}`,
+               'pipe:1'
             ]
+
         console.log(args)
+
+        this.ffmpeg = spawn(FFMPEG_BIN,
+                args, {
+                    stdio: ['pipe', 'pipe', 'inherit']
+                })
+        this.ffmpegPid = this.ffmpeg.pid
+
+        this.ffmpeg.stdout.on('data', this._streamCallback)
+        this.ffmpeg.stdout.on('error', (data) => {
+            console.log(err);
+        })
+
+        this.stream.stream.pipe(this.ffmpeg.stdin)
+    }
+
+    closeTSStream() {
+        this.stream.stream.unpipe(this.ffmpeg.stdin)
+        this.ffmpeg.kill('SIGHUP')
     }
 }
 

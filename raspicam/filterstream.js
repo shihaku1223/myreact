@@ -6,12 +6,16 @@ class FilterStream extends Stream
 {
     constructor(stream) {
         super()
-        this._stream = stream
+        this.stream = stream
         console.log('Create FilterStream')
     }
 
     get stream() {
         return this._stream
+    }
+
+    set stream(stream) {
+        this._stream = stream
     }
 
     openStream() {
