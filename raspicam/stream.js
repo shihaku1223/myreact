@@ -12,6 +12,10 @@ class Stream
     set stream(stream) {
     }
 
+    set streamCallback(cb) {
+        this._streamCallback = cb
+    }
+
     openStream() {
     }
 

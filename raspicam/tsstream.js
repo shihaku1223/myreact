@@ -64,10 +64,6 @@ class TSStream extends FilterStream
         this._pmtPID = pid
     }
 
-    set streamCallback(cb) {
-        this._streamCallback = cb
-    }
-
     /* public */
     openStream() {
         super.openStream()

@@ -6,9 +6,11 @@ import Stream from './stream'
 
 class RaspiCam extends Stream
 {
-    constructor() {
+    constructor(streamCallback = (data) => {} ) {
         super()
         console.log('Create RaspiCam')
+
+        this._streamCallback = streamCallback
     }
 
     /* private */
@@ -51,6 +53,11 @@ class RaspiCam extends Stream
     openStream() {
         this.initRaspivid()
         this.stream = this.raspivid.stdout
+
+        this.raspivid.stdout.on('data', this._streamCallback)
+        this.raspivid.stdout.on('error', (data) => {
+            console.log(err);
+        })
     }
 
     closeStream() {
