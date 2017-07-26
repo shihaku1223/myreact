@@ -14,6 +14,12 @@ module.exports = {
     filename: '[name].js',
   },
 
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  },
+
   resolve: {
     modules: [
       path.resolve('./src'),
