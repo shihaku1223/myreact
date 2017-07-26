@@ -4,6 +4,7 @@
   "description": "React practice",
   "scripts": {
     "start": "react-scripts start",
+    "dev": "webpack-dev-server --progress --colors --content-base build",
     "test": "babel-node server.js"
   },
   "author": "Shih-Po Wang",

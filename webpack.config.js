@@ -1,11 +1,14 @@
+let webpack = require('webpack')
+
 module.exports = {
-  context: __dirname = "/src",
+  context: __dirname + "/src",
   entry: "./index.js",
 
   output: {
     filename: "index.js",
     path: __dirname + "dist"
-  }
+  },
+
   module: {
     loaders: [
       {
