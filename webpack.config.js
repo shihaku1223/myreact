@@ -3,11 +3,15 @@ const webpack = require('webpack')
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  entry: './index.js',
+  entry: {
+    app: [
+      './app/index.js'
+    ]
+  },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js',
+    filename: '[name].js',
   },
 
   resolve: {
