@@ -2,11 +2,11 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
-  context: path.resolve(__dirname, '/src'),
+  context: path.resolve(__dirname, 'src'),
   entry: './index.js',
 
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'index.bundle.js',
   },
 
@@ -22,7 +22,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: [
-          __dirname + '/src'
+          path.resolve(__dirname, 'src')
         ],
         exclude: /node_modules/,
         loader: 'babel-loader',
@@ -32,11 +32,11 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css'
+        loader: 'style-loader!css-loader'
       },
       {
         test: /\.svg$/,
-        loader: 'babel!svg-react'
+        loader: 'svg-react-loader'
       }
     ]
   }
