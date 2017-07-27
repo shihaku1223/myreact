@@ -1,6 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
@@ -49,5 +52,26 @@ module.exports = {
         loader: 'svg-react-loader'
       }
     ]
-  }
+  },
+
+  plugins: [
+      new HtmlWebpackPlugin({
+        title: 'MyReact App',
+        filename: 'index.html',
+        inject: 'body',
+        template: path.resolve(__dirname, 'public/index.tmpl.html'),
+    }),
+    new FaviconsWebpackPlugin({
+        logo: path.resolve(__dirname, 'public/kina.jpg'),
+        prefix: 'assets/icons-[hash]',
+        inject: true,
+        background: '#ffffff',
+        title: 'React Webpack App',
+        icons: {
+            android: true,
+            favicons: true,
+            firefox: true
+        }
+    })
+  ]
 }
