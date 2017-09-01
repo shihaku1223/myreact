@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from '../images/logo.jpg';
 import './App.css';
 
 import CanvasView from './CanvasView'
+import MyButton from '../components/MyButton'
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <CanvasView />
+        <MyButton />
       </div>
     );
   }

@@ -50,6 +50,13 @@ module.exports = {
       {
         test: /\.svg$/,
         loader: 'svg-react-loader'
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        loaders: [
+            'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+            'image-webpack-loader'
+        ]
       }
     ]
   },
