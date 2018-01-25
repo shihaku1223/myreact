@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const style = {
   textDecoration: 'underline'
@@ -12,9 +13,13 @@ const TextButton = (progs) => (
       </div>
 );
 
+TextButton.defaultProps = {
+  text: 'Button'
+};
+
 TextButton.propTypes = {
-  text: React.PropTypes.string.isRequired,
-  onClick: React.PropTypes.func
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func
 }
 
-export default TextButton
+export default TextButton;

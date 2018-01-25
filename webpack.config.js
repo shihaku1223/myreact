@@ -3,12 +3,13 @@ const webpack = require('webpack')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
     app: [
-      './app/index.js'
+      './index.js'
     ]
   },
 
@@ -40,8 +41,12 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react'],
+          presets: ['es2015', 'stage-2', 'react'],
         },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loader: 'file-loader?name=fonts/[name].[ext]'
       },
       {
         test: /\.css$/,
@@ -62,7 +67,7 @@ module.exports = {
   },
 
   plugins: [
-      new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
         title: 'MyReact App',
         filename: 'index.html',
         inject: 'body',
@@ -79,6 +84,7 @@ module.exports = {
             favicons: true,
             firefox: true
         }
-    })
+    }),
+    new ExtractTextPlugin("stylesheets/[name].css")
   ]
 }
