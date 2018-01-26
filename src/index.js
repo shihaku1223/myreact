@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//import App from './App';
+import App from './app/App';
 import Main from './app/Main';
-import './index.css';
+//import './index.css';
 import 'typeface-roboto';
 
 import ErrorBoundary from './ErrorBoundary';
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { lightBlue500 } from 'material-ui/colors';
+import purple from 'material-ui/colors/purple';
+import green from 'material-ui/colors/green';
 
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -31,16 +33,29 @@ const store = createStore(
 
 const history = syncHistoryWithStore(createBrowserHistory(), store);
 
+/*
 const theme = createMuiTheme({
 	palette: {
 		paccent1Color: lightBlue500,
 	}
 });
-
+*/
+const theme = createMuiTheme();
+/*
+const theme = createMuiTheme({
+  palette: {
+    primary: purple,
+    secondary: green,
+  },
+  status: {
+    danger: 'orange',
+  },
+});
+*/
 const MainFrame = () => {
   return (
     <MuiThemeProvider theme={theme}>
-      <Main />
+      <App />
     </MuiThemeProvider>
   );
 }

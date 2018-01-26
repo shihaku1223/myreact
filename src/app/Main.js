@@ -6,7 +6,6 @@ import IconButton from 'material-ui/IconButton';
 
 import { withStyles } from 'material-ui/styles';
 
-
 import './Main.css';
 
 import Button from '../components/Button';

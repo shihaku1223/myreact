@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class PureButton extends React.Component {
 
   constructor(props, context) {
-    super(props, context)
+    super(props, context);
   }
 
   static defaultProps = {
@@ -24,15 +24,16 @@ class PureButton extends React.Component {
   componentWillMount() {
   }
 
-  handleClick() {
+  handleClick = () => {
     console.log('test');
   }
 
   render() {
+    const { className, onClick } = this.props;
     return(
-      <button type={ this.props.className }
-        className={ this.props.className }
-        onClick={ this.handleClick }>
+      <button
+        className={ className }
+        onClick={ onClick }>
         { this.props.text }
       </button>
     );

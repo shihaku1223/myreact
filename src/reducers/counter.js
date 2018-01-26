@@ -1,11 +1,10 @@
-import { INCREMENT, DECREMENT } from '../constants.js';
+import ActionTypes from 'constants/ActionTypes';
 
 export default (state = 0, action) => {
-  console.log(state);
   switch (action.type) {
-    case INCREMENT:
+    case ActionTypes.COUNTER_INCREMENT:
       return state + 1
-    case DECREMENT:
+    case ActionTypes.COUNTER_DECREMENT:
       return state - 1
     default:
       return state
