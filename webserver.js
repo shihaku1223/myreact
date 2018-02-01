@@ -1,16 +1,17 @@
 import Express from 'express';
+import path from 'path';
 
 const app = Express();
 
 /* serves main page */
-app.get("/", function(req, res) {
-    res.sendfile('dist/index.html');
+app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 /* serves all the static files */
-app.get(/^(.+)$/, function(req, res){ 
-    console.log('static file request : ' + req.params);
-    res.sendfile( __dirname + req.params[0]); 
+app.get(/^(.+)$/, (req, res) => {
+    console.log('static file request : ' + req.params[0]);
+    res.sendFile(path.join(__dirname, req.params[0]));
 });
 
 const port = process.env.PORT || 5000;
