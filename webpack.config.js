@@ -4,18 +4,32 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const WebpackVisualizerPlugin = require('webpack-visualizer-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
+  //context: path.resolve(__dirname, 'src'),
   entry: {
     app: [
-      './index.js'
-    ]
+      './src/index.js'
+    ],
+    vendors: [
+      'react',
+      'react-dom',
+      'react-redux',
+      'react-router',
+      'react-router-dom',
+      'react-router-redux',
+      'redux',
+      'redux-observable',
+      'rxjs'
+      //'typeface-roboto',
+    ],
   },
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: '[name].[chunkhash:8].js',
   },
 
   devServer: {
@@ -51,6 +65,7 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
+        //loader: ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
       },
       {
         test: /\.svg$/,
@@ -84,6 +99,80 @@ module.exports = {
             firefox: true
         }
     }),
-    new ExtractTextPlugin("stylesheets/[name].css")
+    new ExtractTextPlugin("styles/[name].css",{
+        allChunks: true
+    }),
+
+    // for dev
+    new webpack.NamedModulesPlugin(),
+
+    /*
+    new webpack.optimize.CommonsChunkPlugin({
+        deepChildren: true,
+        async: 'async-vendor',
+        minChunks: function (module) {
+            return module.resource && /node_modules/.test(module.resource)
+        }
+    }),
+    */
+
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'material',
+        minChunks: function(module, count) {
+            return module.resource && /material-ui/.test(module.resource)
+        }
+    }),
+
+    /*
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'common',
+        minChunks: function(module, count) {
+            //return module.resource && /rxjs|material-ui/.test(module.resource) && count >= 3
+            //return module.resource && /\.js$/.test(module.resource) && count >= 2
+            //return module.resource && /\.js$/.test(module.resource) && count >= 2
+            return module.resource && /\.js$/.test(module.resource) &&
+                module.resource.indexOf(
+                    path.join(__dirname, './node_modules')
+                ) === 0
+        }
+    }),
+    */
+    /*
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendors',
+        minChunks: module => {
+            return module.resource && /node_modules/.test(module.resource)
+        }
+    }),
+    */
+
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendors',
+       // minChunks: Infinity,
+        chunks: ['vendors', 'app']
+    }),
+
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'manifest',
+        chunks: ['vendors', 'material']
+    }),
+
+    /*
+    new webpack.optimize.UglifyJsPlugin({
+        sourceMap: false,
+        mangle: {'screw_ie8': true, 'keep_fnames': true},
+        compress: {
+            // warnings: false,
+            'screw_ie8': true,
+            'keep_fnames': true
+        },
+        output: {comments: false}
+    }),
+    */
+    // merge chunks
+    //new webpack.optimize.AggressiveMergingPlugin(),
+
+    new WebpackVisualizerPlugin(),
+    new BundleAnalyzerPlugin()
   ]
 }
