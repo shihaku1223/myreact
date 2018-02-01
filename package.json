@@ -6,7 +6,9 @@
     "start": "react-scripts start",
     "dev": "webpack-dev-server --devtool eval --progress --colors",
     "build": "NODE_ENV=production webpack",
-    "test": "babel-node server.js"
+    "test": "babel-node server.js",
+    "buildserver": "babel webserver.js -d dist",
+    "server": "node dist/webserver.js"
   },
   "author": "Shih-Po Wang",
   "license": "ISC",
@@ -36,6 +38,7 @@
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
+    "express": "^4.16.2",
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.30",
     "material-ui-icons": "^1.0.0-beta.17",
@@ -49,6 +52,8 @@
     "react-swipeable-views": "^0.12.12",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
+    "redux-observable": "^0.17.0",
+    "rxjs": "^5.5.6",
     "typeface-roboto": "0.0.50"
   }
 }

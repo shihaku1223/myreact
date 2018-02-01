@@ -21,7 +21,10 @@ import { Router, Route, Link } from 'react-router-dom';
 import { syncHistoryWithStore, routerMiddleware, routerReducer } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 
+/* middleware */
 import { logger, thunk, promise } from 'middleware';
+import { createEpicMiddleware } from 'redux-observable';
+import epics from './epics';
 import reducers from './reducers';
 
 const store = createStore(
@@ -29,7 +32,8 @@ const store = createStore(
       reducers,
       routing: routerReducer
     }),
-    applyMiddleware(logger, thunk, promise));
+    applyMiddleware(logger, thunk, promise,
+                  createEpicMiddleware(epics)));
 
 const history = syncHistoryWithStore(createBrowserHistory(), store);
 
