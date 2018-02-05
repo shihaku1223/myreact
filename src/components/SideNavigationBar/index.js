@@ -9,9 +9,6 @@ import Hidden from 'material-ui/Hidden';
 
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 
-const style = {
-};
-
 class SideNavigationBar extends Component {
 
   constructor(props) {
@@ -51,4 +48,4 @@ class SideNavigationBar extends Component {
   }
 }
 
-export default withStyles(style)(SideNavigationBar);
+export default SideNavigationBar;

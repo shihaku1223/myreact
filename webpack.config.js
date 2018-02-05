@@ -152,11 +152,6 @@ module.exports = {
         chunks: ['vendors', 'app']
     }),
 
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest',
-        chunks: ['vendors', 'material']
-    }),
-
     /*
     new webpack.optimize.UglifyJsPlugin({
         sourceMap: false,
@@ -173,6 +168,6 @@ module.exports = {
     //new webpack.optimize.AggressiveMergingPlugin(),
 
     new WebpackVisualizerPlugin(),
-    new BundleAnalyzerPlugin()
+    //new BundleAnalyzerPlugin()
   ]
 }

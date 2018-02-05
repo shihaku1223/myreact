@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './app/App';
-import Main from './app/Main';
-//import './index.css';
+//import Main from './app/Main';
+import './index.css';
 import 'typeface-roboto';
 
 import ErrorBoundary from './ErrorBoundary';
@@ -16,10 +16,12 @@ import green from 'material-ui/colors/green';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
-import { hashHistory, browserHistory } from 'react-router';
-import { Router, Route, Link } from 'react-router-dom';
-import { syncHistoryWithStore, routerMiddleware, routerReducer } from 'react-router-redux';
+//import { /* Router, Route, */ Link } from 'react-router-dom';
+import { Route, Redirect, Switch, /* hashHistory, browserHistory */} from 'react-router';
+import { ConnectedRouter } from 'react-router-redux';
+import { syncHistoryWithStore, routerMiddleware, routerReducer, push } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
+import { createHashHistory } from 'history';
 
 /* middleware */
 import { logger, thunk, promise } from 'middleware';
@@ -27,15 +29,19 @@ import { createEpicMiddleware } from 'redux-observable';
 import epics from './epics';
 import reducers from './reducers';
 
+//const history = createHashHistory();
+const history = createBrowserHistory();
+
 const store = createStore(
     combineReducers({
       reducers,
       routing: routerReducer
     }),
     applyMiddleware(logger, thunk, promise,
-                  createEpicMiddleware(epics)));
+                  createEpicMiddleware(epics),
+                  routerMiddleware(history)));
 
-const history = syncHistoryWithStore(createBrowserHistory(), store);
+//const history = syncHistoryWithStore(createBrowserHistory(), store);
 
 /*
 const theme = createMuiTheme({
@@ -64,6 +70,7 @@ const MainFrame = () => {
   );
 }
 
+/*
 const Root = () => {
   return (
       <ErrorBoundary>
@@ -71,11 +78,14 @@ const Root = () => {
       </ErrorBoundary>
   );
 }
+*/
 
 ReactDOM.render(
     <Provider store={store}>
-      <Router history={history}>
-        <MainFrame />
-      </Router>
+      <ConnectedRouter history={history}>
+         <Switch>
+          <Route exact path="/" component={App}/>
+        </Switch>
+      </ConnectedRouter>
     </Provider>
   , document.getElementById('root'));

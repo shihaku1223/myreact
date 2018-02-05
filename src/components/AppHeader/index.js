@@ -29,7 +29,7 @@ const styles = {
 class AppHeader extends Component {
 
   static propTypes = {
-    classes: PropTypes.object.isRequired,
+//    classes: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
   }
 
@@ -44,16 +44,15 @@ class AppHeader extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const title = this.props.title;
     return (
-      <AppBar className={classes.root} position='static' >
+      <AppBar position='static' >
         <Toolbar>
-          <IconButton className={classes.menuButton}
+          <IconButton style={styles.menuButton}
             onClick={this.handleDrawerToggle}>
             <MenuIcon />
           </IconButton>
-          <Typography type="title" color="inherit" className={classes.flex}>
+          <Typography type="title" color="inherit" style={styles.flex}>
             {title}
           </Typography>
         </Toolbar>
@@ -65,4 +64,4 @@ class AppHeader extends Component {
   }
 }
 
-export default withStyles(styles)(AppHeader);
+export default AppHeader;
