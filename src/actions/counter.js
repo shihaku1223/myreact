@@ -8,6 +8,6 @@ export const increment = () => {
 
 export const decrement = () => {
   return {
-    type: ActionsTypes.COUNTER_DECREMENT
+    type: ActionTypes.COUNTER_DECREMENT
   };
 };

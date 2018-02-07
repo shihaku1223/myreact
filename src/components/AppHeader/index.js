@@ -9,8 +9,6 @@ import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
 import MenuIcon from 'material-ui-icons/Menu';
 
-import SideNavigationBar from '../SideNavigationBar';
-
 //import logo from '../images/logo.jpg';
 
 const styles = {
@@ -29,36 +27,27 @@ const styles = {
 class AppHeader extends Component {
 
   static propTypes = {
-//    classes: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
+    onMenuClick: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
-
-    this.state = { open: false };
-  }
-
-  handleDrawerToggle = () => {
-    this.setState({ open: !this.state.open });
   }
 
   render() {
-    const title = this.props.title;
+    const { title, onMenuClick } = this.props;
     return (
       <AppBar position='static' >
         <Toolbar>
           <IconButton style={styles.menuButton}
-            onClick={this.handleDrawerToggle}>
+            onClick={onMenuClick}>
             <MenuIcon />
           </IconButton>
           <Typography type="title" color="inherit" style={styles.flex}>
             {title}
           </Typography>
         </Toolbar>
-        <SideNavigationBar
-          drawerOpen={this.state.open}
-          onClose={this.handleDrawerToggle}/>
       </AppBar>
     );
   }

@@ -13,28 +13,23 @@ class PureButton extends React.Component {
     color: 'blue'
   }
 
+  static style = {
+    width: '75px'
+  }
+
   static propTypes = {
     text: PropTypes.string.isRequired,
     onClick: PropTypes.func
-  }
-
-  componentDidMount() {
-  }
-
-  componentWillMount() {
-  }
-
-  handleClick = () => {
-    console.log('test');
   }
 
   render() {
     const { className, onClick } = this.props;
     return(
       <button
-        className={ className }
-        onClick={ onClick }>
-        { this.props.text }
+        style={PureButton.style}
+        className={className}
+        onClick={onClick}>
+        {this.props.text}
       </button>
     );
   }

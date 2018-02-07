@@ -13,6 +13,9 @@ import { lightBlue500 } from 'material-ui/colors';
 import purple from 'material-ui/colors/purple';
 import green from 'material-ui/colors/green';
 
+// Page
+import { CounterViewRoute } from 'components/CounterView/counterViewRoute';
+
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -35,6 +38,7 @@ const history = createBrowserHistory();
 const store = createStore(
     combineReducers({
       reducers,
+      // use routerReducer as routing reducer
       routing: routerReducer
     }),
     applyMiddleware(logger, thunk, promise,
@@ -62,14 +66,6 @@ const theme = createMuiTheme({
   },
 });
 */
-const MainFrame = () => {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <App />
-    </MuiThemeProvider>
-  );
-}
-
 /*
 const Root = () => {
   return (
@@ -80,11 +76,27 @@ const Root = () => {
 }
 */
 
+const AppRoute = () => {
+  return(
+      <MuiThemeProvider theme={theme}>
+        <App>
+          <Switch>
+            <Route path='/counter/:action' component={CounterViewRoute}/>
+            <Redirect from='/counter' to='/counter/inc'/>
+
+            <Route path='/contact' render={() => <h1>Contact Us</h1>}/>
+            <Redirect from='*' to='/counter/inc'/>
+          </Switch>
+        </App>
+      </MuiThemeProvider>
+  );
+}
+
 ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
          <Switch>
-          <Route exact path="/" component={App}/>
+          <Route path='/' component={AppRoute}/>
         </Switch>
       </ConnectedRouter>
     </Provider>
