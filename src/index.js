@@ -15,6 +15,7 @@ import green from 'material-ui/colors/green';
 
 // Page
 import { CounterViewRoute } from 'components/CounterView/counterViewRoute';
+import StatusView from 'components/StatusView';
 
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -81,11 +82,12 @@ const AppRoute = () => {
       <MuiThemeProvider theme={theme}>
         <App>
           <Switch>
+            <Route path='/status' component={StatusView}/>
             <Route path='/counter/:action' component={CounterViewRoute}/>
             <Redirect from='/counter' to='/counter/inc'/>
 
             <Route path='/contact' render={() => <h1>Contact Us</h1>}/>
-            <Redirect from='*' to='/counter/inc'/>
+            <Redirect from='*' to='/status'/>
           </Switch>
         </App>
       </MuiThemeProvider>

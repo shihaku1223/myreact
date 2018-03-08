@@ -49,6 +49,7 @@ class SideNavigationBar extends Component {
     const list = (
       <div>
         <List>
+          <NavigationItem path='/status' text='Status'/>
           <NavigationItem path='/counter/inc' text='INC'/>
           <NavigationItem path='/counter/dec' text='DEC'/>
           <NavigationItem path='/contact' text='Contact'/>

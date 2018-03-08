@@ -7,11 +7,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackVisualizerPlugin = require('webpack-visualizer-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const webpackHotMiddleware = 'webpack-hot-middleware/client?path=__webpack_hmr';
+
 module.exports = {
   //context: path.resolve(__dirname, 'src'),
   entry: {
     app: [
-      './src/index.js'
+      webpackHotMiddleware,
+      './src/index.js',
     ],
     vendors: [
       'react',
@@ -22,7 +25,7 @@ module.exports = {
       'react-router-redux',
       'redux',
       'redux-observable',
-      'rxjs'
+      'rxjs',
       //'typeface-roboto',
     ],
   },
@@ -30,7 +33,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].[chunkhash:8].js',
+    filename: '[name].[hash:8].js',
   },
 
   devServer: {
@@ -153,6 +156,10 @@ module.exports = {
        // minChunks: Infinity,
         chunks: ['vendors', 'app']
     }),
+
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
 
     /*
     new webpack.optimize.UglifyJsPlugin({

@@ -6,9 +6,10 @@
     "start": "react-scripts start",
     "dev": "webpack-dev-server --devtool eval --progress --colors",
     "build": "NODE_ENV=production webpack",
-    "test": "babel-node server.js",
+    "test": "babel-node webserver.js",
     "buildserver": "babel webserver.js -d dist",
-    "server": "node dist/webserver.js"
+    "server": "node dist/webserver.js",
+    "devServer": "node devServer.js"
   },
   "author": "Shih-Po Wang",
   "license": "ISC",
@@ -38,10 +39,17 @@
     "url-loader": "^0.6.2",
     "webpack": "^3.4.0",
     "webpack-bundle-analyzer": "^2.9.2",
+    "webpack-dev-middleware": "^2.0.6",
     "webpack-dev-server": "^2.6.1",
+    "webpack-hot-middleware": "^2.21.0",
     "webpack-visualizer-plugin": "^0.1.11"
   },
   "dependencies": {
+    "@devexpress/dx-grid-core": "^1.0.0",
+    "@devexpress/dx-react-core": "^1.0.0",
+    "@devexpress/dx-react-grid": "^1.0.0",
+    "@devexpress/dx-react-grid-material-ui": "^1.0.0",
+    "bulma": "^0.6.2",
     "express": "^4.16.2",
     "history": "^4.7.2",
     "material-ui": "^1.0.0-beta.30",
