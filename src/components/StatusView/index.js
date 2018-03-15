@@ -6,7 +6,7 @@ import CommonText from 'components/common/CommonText';
 import PureButton from 'components/Button/PureButton';
 import PagingTable from 'components/common/Table/PagingTable';
 
-import { TabSheet, TabSheetContainer } from 'components/common/TabView';
+import { TabSheet, TabSheetContainer, TabViewContent } from 'components/common/TabView';
 
 import {
   SortingState, SelectionState, FilteringState, PagingState, GroupingState,
@@ -16,6 +16,8 @@ import {
 import {
   Grid, Table, TableHeaderRow
 } from '@devexpress/dx-react-grid-material-ui';
+
+import VMStatusView from 'components/StatusView/VMStatusView';
 
 class StatusView extends React.Component {
 
@@ -33,8 +35,8 @@ class StatusView extends React.Component {
     return(
       <MainContentView>
         <TabSheetContainer>
-          <TabSheet text='VM'/>
-          <TabSheet text='DAMain Service'/>
+          <TabSheet text='VM' content={VMStatusView}/>
+          <TabSheet text='DAMain Service' content={TabViewContent}/>
         </TabSheetContainer>
       </MainContentView>
     );

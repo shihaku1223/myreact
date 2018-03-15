@@ -7,6 +7,10 @@ class TabSheetContainer extends React.Component {
     children: PropTypes.node.isRequired,
   }
 
+  static style = {
+    marginBottom: '3px'
+  }
+
   constructor(props) {
     super(props);
     this.state = { activedTabIndex: 0 };
@@ -17,20 +21,30 @@ class TabSheetContainer extends React.Component {
     this.setState({ activedTabIndex: idx });
   }
 
+  getSelectedContent = () => {
+    const { children } = this.props;
+    const content = children[this.state.activedTabIndex].props.content;
+
+    return React.createElement(content);
+  }
+
   render() {
     const { children } = this.props;
     //console.log(React.Children.count(children));
     return (
-      <div className="tabs is-centered">
-        <ul>
-          {React.Children.map(children, (child, idx) => {
-            return React.cloneElement(child, {
-              index: idx,
-              onTabSheetClick: this.handleTabClick,
-              isActive: idx == this.state.activedTabIndex
-            })
-          })}
-        </ul>
+      <div style={TabSheetContainer.style}>
+        <div style={TabSheetContainer.style} className="tabs is-centered">
+          <ul style={TabSheetContainer.style}>
+            {React.Children.map(children, (child, idx) => {
+              return React.cloneElement(child, {
+                index: idx,
+                onTabSheetClick: this.handleTabClick,
+                isActive: idx == this.state.activedTabIndex
+              })
+            })}
+          </ul>
+        </div>
+        {this.getSelectedContent()}
       </div>
     );
   }

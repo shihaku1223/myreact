@@ -33,6 +33,8 @@ import { createEpicMiddleware } from 'redux-observable';
 import epics from './epics';
 import reducers from './reducers';
 
+import withWebSocketChannel from 'decorators/withWebSocketChannel';
+
 //const history = createHashHistory();
 const history = createBrowserHistory();
 
@@ -94,12 +96,20 @@ const AppRoute = () => {
   );
 }
 
+const Router = () => {
+  return(
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route path='/' component={AppRoute}/>
+      </Switch>
+    </ConnectedRouter>
+  );
+}
+
+const EnhancedRouter = withWebSocketChannel(Router);
+
 ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-         <Switch>
-          <Route path='/' component={AppRoute}/>
-        </Switch>
-      </ConnectedRouter>
+      <EnhancedRouter />
     </Provider>
   , document.getElementById('root'));

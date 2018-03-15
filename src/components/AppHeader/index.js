@@ -19,6 +19,7 @@ const styles = {
     flex: 1,
   },
   menuButton: {
+    outline: '0px',
     marginLeft: '-12px',
     marginRight: '50px',
   },
