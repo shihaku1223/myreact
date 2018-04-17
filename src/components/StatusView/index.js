@@ -8,15 +8,6 @@ import PagingTable from 'components/common/Table/PagingTable';
 
 import { TabSheet, TabSheetContainer, TabViewContent } from 'components/common/TabView';
 
-import {
-  SortingState, SelectionState, FilteringState, PagingState, GroupingState,
-  IntegratedFiltering, IntegratedGrouping, IntegratedPaging, IntegratedSorting, IntegratedSelection,
-} from '@devexpress/dx-react-grid';
-
-import {
-  Grid, Table, TableHeaderRow
-} from '@devexpress/dx-react-grid-material-ui';
-
 import VMStatusView from 'components/StatusView/VMStatusView';
 
 class StatusView extends React.Component {

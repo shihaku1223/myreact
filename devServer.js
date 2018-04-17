@@ -6,13 +6,13 @@ const url = require('url');
 const middleware = require('webpack-dev-middleware');
 const hotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.dev.js');
-const WebSocket = require('ws');
+const SubProcess = require('./server/process');
 
 const app = express();
 const compiler = webpack(config);
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const io = require('socket.io')(server);
 
 app.use(middleware(compiler, {
     noInfo: false,
@@ -20,17 +20,61 @@ app.use(middleware(compiler, {
     stats: { colors: true }
 }));
 
-wss.on('connection', (ws, req) => {
-  const location = url.parse(req.url, true);
-  // You might use location.query.access_token to authenticate or share sessions
-  // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+const wsHandleError = (error) => {
+  if(error === undefined)
+    return;
+  console.log(error);
+};
 
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+const noop = () => {};
+
+io.on('connection', (socket) => {
+  console.log('a channel connected');
+
+  const interval = setInterval(function ping() {
+    socket.emit('test', 'Test');
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('a channel disconnected');
   });
+})
 
-  ws.send('something');
-});
+io.of('channels/main').on('connection', (socket) => {
+  console.log('main connected');
+
+  const interval = setInterval(function ping() {
+
+    let args = [
+        '--cmd', 'find',
+        '--category', 'vm',
+        '--name', 'DAMain'
+    ];
+
+    let getUUID = new SubProcess('/damain/virm/client', args);
+    let result = getUUID.runSync();
+    console.log(result);
+
+
+    socket.emit('test', 'Test');
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('main channel disconnected');
+  });
+})
+
+io.of('channels/vmstatus').on('connection', (socket) => {
+  console.log('vmstatus connected');
+
+  const interval = setInterval(function ping() {
+    socket.emit('test', 'Test');
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('vmstatus channel disconnected');
+  });
+})
 
 app.use(hotMiddleware(compiler));
 //app.use('/assets', express.static(path.join(__dirname, 'dist/assets')));

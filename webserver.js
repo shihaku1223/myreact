@@ -3,24 +3,92 @@ import path from 'path';
 import http from 'http';
 import url from 'url';
 
-import WebSocket from 'ws';
+import SubProcess from 'server/process';
 
 const app = Express();
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const io = require('socket.io')(server);
 
-wss.on('connection', (ws, req) => {
-  const location = url.parse(req.url, true);
-  // You might use location.query.access_token to authenticate or share sessions
-  // or req.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+io.on('connection', (socket) => {
+  console.log('a channel connected');
 
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+  const interval = setInterval(function ping() {
+    socket.emit('test', 'Test');
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('a channel disconnected');
   });
+})
 
-  ws.send('something');
-});
+io.of('channels/main').on('connection', (socket) => {
+  console.log('main connected');
+
+  const interval = setInterval(function ping() {
+    socket.emit('test', 'Test');
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('main channel disconnected');
+  });
+})
+
+io.of('channels/vmstatus').on('connection', (socket) => {
+  console.log('vmstatus connected');
+
+  const interval = setInterval(function ping() {
+
+    let args = [
+        '--cmd', 'find',
+        '--category', 'vm',
+        '--name', 'DAMain'
+    ];
+
+    try {
+      let getUUID = new SubProcess('/damain/virm/client', args);
+      let result = getUUID.runSync();
+
+      let uuid = result.stdout.trim();
+      let ip = undefined;
+      args = [
+        '--cmd', 'agent',
+        '--uuid', uuid,
+        '--agent', 'guest-network-get-interfaces'
+      ]
+
+      let getIP = new SubProcess('/damain/virm/client', args);
+      result = getIP.runSync();
+
+      try {
+        let obj = JSON.parse(result.stdout);
+        obj.forEach((item) => {
+          if(item.name == 'eth0') {
+            if(item['ip-addresses'] !== undefined) {
+              item['ip-addresses'].forEach((addr) => {
+                if(addr['ip-address'] !== undefined && addr['ip-address-type'] === 'ipv4') {
+                  ip = addr['ip-address'] + '/' + addr['prefix'].toString();
+                }
+              });
+            }
+          }
+        });
+
+        socket.emit('status', { 'uuid': uuid, 'ip': ip });
+      } catch(err) {
+        console.log(err);
+      }
+
+    } catch(err) {
+      console.log(err);
+    }
+
+  }, 3000);
+
+  socket.on('disconnect', () => {
+    console.log('vmstatus channel disconnected');
+  });
+})
 
 /* serves main page */
 app.get("/", (req, res) => {
@@ -34,7 +102,7 @@ app.get(/^(.+)$/, (req, res) => {
 });
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8999;
 server.listen(port, () => {
     console.log("Listening on ", server.address());
 });

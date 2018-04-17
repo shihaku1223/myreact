@@ -34,6 +34,7 @@ import epics from './epics';
 import reducers from './reducers';
 
 import withWebSocketChannel from 'decorators/withWebSocketChannel';
+import withSocketIOChannel from 'decorators/withSocketIOChannel';
 
 //const history = createHashHistory();
 const history = createBrowserHistory();
@@ -106,7 +107,7 @@ const Router = () => {
   );
 }
 
-const EnhancedRouter = withWebSocketChannel(Router);
+const EnhancedRouter = withSocketIOChannel('main')(Router);
 
 ReactDOM.render(
     <Provider store={store}>
