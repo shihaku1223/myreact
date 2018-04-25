@@ -16,6 +16,7 @@ import green from 'material-ui/colors/green';
 // Page
 import { CounterViewRoute } from 'components/CounterView/counterViewRoute';
 import StatusView from 'components/StatusView';
+import CircularProgressView from 'components/common/CircularProgressView';
 
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -90,6 +91,7 @@ const AppRoute = () => {
             <Redirect from='/counter' to='/counter/inc'/>
 
             <Route path='/contact' render={() => <h1>Contact Us</h1>}/>
+            <Route path='/test' component={CircularProgressView}/>
             <Redirect from='*' to='/status'/>
           </Switch>
         </App>

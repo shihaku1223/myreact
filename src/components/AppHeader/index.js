@@ -45,7 +45,7 @@ class AppHeader extends Component {
             onClick={onMenuClick}>
             <MenuIcon />
           </IconButton>
-          <Typography type="title" color="inherit" style={styles.flex}>
+          <Typography variant="title" color="inherit" style={styles.flex}>
             {title}
           </Typography>
         </Toolbar>

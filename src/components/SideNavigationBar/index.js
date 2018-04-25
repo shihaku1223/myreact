@@ -53,6 +53,7 @@ class SideNavigationBar extends Component {
           <NavigationItem path='/counter/inc' text='INC'/>
           <NavigationItem path='/counter/dec' text='DEC'/>
           <NavigationItem path='/contact' text='Contact'/>
+          <NavigationItem path='/test' text='Test'/>
         </List>
       </div>
     );

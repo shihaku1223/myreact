@@ -3,7 +3,7 @@ import path from 'path';
 import http from 'http';
 import url from 'url';
 
-import SubProcess from 'server/process';
+import SubProcess from './server/process';
 
 const app = Express();
 
@@ -100,7 +100,6 @@ app.get(/^(.+)$/, (req, res) => {
     console.log('static file request : ' + req.params[0]);
     res.sendFile(path.join(__dirname, req.params[0]));
 });
-
 
 const port = process.env.PORT || 8999;
 server.listen(port, () => {
